@@ -1,2 +1,6 @@
 tsconfig.build.json
 tsconfig.json
+build
+src
+test
+fa.tar.gz
