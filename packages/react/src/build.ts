@@ -62,7 +62,8 @@ function registerIcon(def: IconDefinition) {
     // const imports = def.styles.map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     // const imports = [STYLE].map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     const iconName = `icon${Name}`;
-    const fileData = `import { _defineIcon, _tryRequire } from './_define';
+    // import { _defineIcon, _tryRequire } from './_define';
+    const fileData = `const { _defineIcon, _tryRequire } = require('./_define');
 const __tryRequire = _tryRequire;
 ${imports.map(o => o[1]).join(EOL)}
 /** FontAwesome Icon: [${def.name}](https://fontawesome.com/icons/${def.name}) - ${def.label}
