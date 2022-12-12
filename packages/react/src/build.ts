@@ -46,7 +46,9 @@ function registerIcon(def: IconDefinition) {
         faName,
     })
     const Name = def.faName.slice(2);
-    // indexDefines.push(`export { default as ${'Icon' + Name} } from './${camelCase(def.name)}';`);
+    const IconName = 'Icon' + Name;
+    const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
+    indexDefines.push(`export { default as ${NameIcon} } from './${camelCase(def.name)}';`);
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
         `console.log(__tryRequire); // @ts-ignore`,
@@ -60,7 +62,6 @@ function registerIcon(def: IconDefinition) {
     // const imports = def.styles.map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     // const imports = [STYLE].map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     const iconName = `icon${Name}`;
-    const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
     const fileData = `import { _defineIcon, _tryRequire } from './_define';
 const __tryRequire = _tryRequire;
 ${imports.map(o => o[1]).join(EOL)}
@@ -68,8 +69,8 @@ ${imports.map(o => o[1]).join(EOL)}
  * @styles  ${def.styles.map(o => `\`${o}\``).join(', ')}
  * @changes ${def.changes.map(o => `\`${o}\``).join(', ')}
 */
-export const ${NameIcon} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
-export default ${NameIcon};`;
+export const ${IconName} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
+export default ${IconName};`;
     return [
         camelCase(def.name) + '.ts',
         fileData,
