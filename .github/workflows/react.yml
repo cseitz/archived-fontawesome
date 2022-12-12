@@ -21,7 +21,7 @@ jobs:
           scope: '@cseitz'
       - name: Install
         working-directory: packages/react
-        run: npm install
+        run: FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} npm install
       - name: Build
         working-directory: packages/react
         run: FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} npm run build
