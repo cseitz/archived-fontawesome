@@ -1,0 +1,19 @@
+{
+    "name": "@cseitz/fontawesome-",
+    "version": "1.0.5",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "pull": "rm -rf package; npm pack @fortawesome/$PKG-svg-icons && gunzip -c fortawesome-*.tgz | tar xf - && rm -rf fortawesome-*.tgz",
+        "rename": "node rename.js"
+    },
+    "files": [
+        "*"
+    ],
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.2.1"
+    },
+    "devDependencies": {
+    }
+}
