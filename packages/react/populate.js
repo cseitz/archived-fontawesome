@@ -8,7 +8,7 @@ const __dist = process.env.NODE_AUTH_TOKEN ? __dirname : __dirname + '/dist';
 
 console.log({ __dist })
 
-const files = readdirSync(__dist).filter(o => !o.startsWith('index') && (
+const files = readdirSync(__dist).filter(o => (
     o.endsWith('.js') || o.endsWith('.d.ts')
 ));
 
