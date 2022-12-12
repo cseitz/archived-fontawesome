@@ -50,7 +50,7 @@ function registerIcon(def: IconDefinition) {
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
         `console.log(__tryRequire); // @ts-ignore`,
-        `import ${o} from '@cseitz/fontawesome-icons-svg-${o}/${def.faName}';`,
+        `import ${o} from '@cseitz/fontawesome-svg-${o}/${def.faName}';`,
         // `const ${o} = import('@cseitz/fontawesome-svg-${o}/${def.faName}').catch(err => null);`
         // `try {`,
         // `} catch(err) {}`
