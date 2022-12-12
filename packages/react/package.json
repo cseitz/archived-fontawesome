@@ -1,0 +1,34 @@
+{
+    "name": "@cseitz/fontawesome-react",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "license": "MIT",
+    "scripts": {
+        "bruh": "npm install @fortawesome/fontawesome-pro",
+        "pull": "rm -rf package; npm pack @fortawesome/$PKG-svg-icons && gunzip -c fortawesome-*.tgz | tar xf - && rm -rf fortawesome-*.tgz && mkdir -p dist && mv package dist/$NAME",
+        "download": "rm -rf dist; PKG=pro-solid NAME=solid npm run pull && PKG=pro-regular NAME=regular npm run pull && PKG=pro-light NAME=light npm run pull && PKG=pro-thin NAME=thin npm run pull && PKG=pro-duotone NAME=duotone npm run pull && PKG=sharp-solid NAME=sharp-solid npm run pull && tar -zcvf fa.tar.gz dist",
+        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && gunzip -c fa.tar.gz | tar xvf -",
+        "hm": "copyfiles -u 1 ./fa/**/* build"
+    },
+    "files": [
+        "dist/*"
+    ],
+    "dependencies": {
+        "@fortawesome/fontawesome-pro": "^6.2.1",
+        "@fortawesome/fontawesome-svg-core": "^6.2.1",
+        "@fortawesome/react-fontawesome": "^0.2.0",
+        "lodash": "^4.17.21",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "@types/lodash": "^4.14.190",
+        "@types/node": "^18.11.13",
+        "@types/react": "^18.0.21",
+        "@types/react-dom": "^18.0.6",
+        "tsx": "^3.12.1",
+        "typescript": "^4.9.3",
+        "yaml": "^2.1.3"
+    }
+}

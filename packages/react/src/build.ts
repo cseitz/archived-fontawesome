@@ -1,0 +1,94 @@
+import { execSync } from 'child_process';
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync, readdirSync, unlinkSync } from 'fs';
+import { parse, stringify } from 'yaml';
+import camelCase from 'lodash/camelCase';
+import { IconDefinition } from './_define';
+import { EOL } from 'os';
+
+
+console.log(execSync(`npm install @fortawesome/fontawesome-pro`).toString('utf8'));
+
+const LIMIT_ICONS = undefined; //20; //undefined;
+
+const allIcons = parse(
+    readFileSync((
+        require.resolve('@fortawesome/fontawesome-pro/metadata/icons.yml')
+    ), 'utf8')
+);
+
+const iconDefinitions = Object.entries(allIcons)
+    .map(([name, data]) => {
+        return {
+            ...data as any,
+            name,
+        } as IconDefinition;
+    })
+
+
+const packs = {
+    "duotone": "@fortawesome/pro-duotone-svg-icons",
+    "regular": "@fortawesome/pro-regular-svg-icons",
+    "solid": "@fortawesome/pro-solid-svg-icons",
+    "light": "@fortawesome/pro-light-svg-icons",
+    "thin": "@fortawesome/pro-thin-svg-icons",
+    "brands": "@fortawesome/pro-brands-svg-icons",
+    "sharp-solid": "@fortawesome/sharp-solid-svg-icons"
+} as const;
+
+// console.log(allIcons);
+
+const indexDefines: string[] = [];
+function registerIcon(def: IconDefinition) {
+    const faName = camelCase('fa ' + def.name);
+    Object.assign(def, {
+        faName,
+    })
+    const Name = def.faName.slice(2);
+    indexDefines.push(`export { default as ${'Icon' + Name} } from './${camelCase(def.name)}';`);
+    const imports = def.styles.map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
+    const iconName = `icon${Name}`;
+    const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
+    const fileData = `import { _defineIcon } from './_define';
+${imports.map(o => o[1]).join(EOL)}
+
+/** FontAwesome Icon: [${def.name}](https://fontawesome.com/icons/${def.name}) - ${def.label}
+ * @styles  ${def.styles.map(o => `\`${o}\``).join(', ')}
+ * @changes ${def.changes.map(o => `\`${o}\``).join(', ')}
+*/
+const ${iconName} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
+export const ${NameIcon} = ${iconName};
+export default icon${def.faName.slice(2)};`;
+    return [
+        camelCase(def.name) + '.ts',
+        fileData,
+    ]
+}
+
+const defines = iconDefinitions.map(registerIcon);
+
+// console.log(defines.slice(0, 20));
+
+// console.log(indexDefines.slice(0, 10))
+
+// console.log(defines.find(o => o[0].includes('github'))[1]);
+
+mkdirSync(__dirname + '/../build', { recursive: true });
+// execSync(`cp -R ${__dirname}/../fa ${__dirname}/../build`);
+
+const dirs = readdirSync(__dirname + '/../dist');
+dirs.map(o => {
+    if (o.includes('.')) {
+        unlinkSync(__dirname + '/../dist/' + o);
+    }
+});
+
+defines.slice(0, LIMIT_ICONS).forEach(o => writeFileSync(__dirname + '/../build/' + o[0], o[1]));
+
+writeFileSync(__dirname + '/../build/index.tsx', readFileSync(__dirname + '/index.tsx', 'utf8') + indexDefines.slice(0, LIMIT_ICONS).join(EOL));
+writeFileSync(__dirname + '/../build/_define.tsx', readFileSync(__dirname + '/_define.tsx'));
+
+writeFileSync(__dirname + '/../build/_define.tsx', readFileSync(__dirname + '/_define.tsx'));
+
+
+// const dirs = readdirSync(__dirname + '/../fa');
+// dirs.map(o => execSync(`cp -R ${__dirname}/../fa/${o} ${__dirname}/../build/${o}`));
