@@ -1,8 +1,8 @@
 {
     "name": "@cseitz/fontawesome-react",
-    "version": "1.0.17",
-    "main": "./index.js",
-    "types": "./index.d.ts",
+    "version": "1.0.18",
+    "main": "index.js",
+    "types": "index.d.ts",
     "license": "MIT",
     "scripts": {
         "bruh": "npm install @fortawesome/fontawesome-pro",

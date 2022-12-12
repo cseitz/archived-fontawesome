@@ -49,7 +49,7 @@ function registerIcon(def: IconDefinition) {
     const Name = def.faName.slice(2);
     const IconName = 'Icon' + Name;
     const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
-    // indexDefines.push(`export { default as ${NameIcon} } from './${camelCase(def.name)}';`);
+    indexDefines.push(`export { ${NameIcon} } from './${camelCase(def.name)}';`);
     // indexReferences.push(`/// <reference path="./${camelCase(def.name)}.d.ts" />`)
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,

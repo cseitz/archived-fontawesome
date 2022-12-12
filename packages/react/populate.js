@@ -20,11 +20,10 @@ if (!__dist.endsWith('dist')) {
 }
 
 
-
-writeFileSync(__dist + '/index.d.ts', (
-    readFileSync(__dist + '/index.d.ts', 'utf8') + (
-        files.filter(o => o.endsWith('.d.ts'))
-            .map(o => `/// <reference path="./${o}" />`)
-            .join(EOL)
-    )
-))
+// writeFileSync(__dist + '/index.d.ts', (
+//     readFileSync(__dist + '/index.d.ts', 'utf8') + (
+//         files.filter(o => o.endsWith('.d.ts'))
+//             .map(o => `/// <reference path="./${o}" />`)
+//             .join(EOL)
+//     )
+// ))
