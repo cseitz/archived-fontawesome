@@ -10,7 +10,7 @@ import { EOL } from 'os';
 
 console.log(execSync(`npm install --no-save @fortawesome/fontawesome-pro`).toString('utf8'));
 
-const LIMIT_ICONS = undefined; //20; //undefined;
+const LIMIT_ICONS = 20; //undefined; //20; //undefined;
 
 const allIcons = parse(
     readFileSync((
@@ -48,7 +48,7 @@ function registerIcon(def: IconDefinition) {
     const Name = def.faName.slice(2);
     const IconName = 'Icon' + Name;
     const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
-    indexDefines.push(`export { default as ${NameIcon} } from './${camelCase(def.name)}';`);
+    // indexDefines.push(`export { default as ${NameIcon} } from './${camelCase(def.name)}';`);
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
         `console.log(__tryRequire); // @ts-ignore`,
@@ -62,8 +62,8 @@ function registerIcon(def: IconDefinition) {
     // const imports = def.styles.map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     // const imports = [STYLE].map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     const iconName = `icon${Name}`;
-    // import { _defineIcon, _tryRequire } from './_define';
-    const fileData = `const { _defineIcon, _tryRequire } = require('./_define');
+    const fileData = `import { _defineIcon, _tryRequire } from './_define';
+// const { _defineIcon, _tryRequire } = import('./_define');
 const __tryRequire = _tryRequire;
 ${imports.map(o => o[1]).join(EOL)}
 /** FontAwesome Icon: [${def.name}](https://fontawesome.com/icons/${def.name}) - ${def.label}

@@ -28,6 +28,9 @@ jobs:
       - name: Move Files
         working-directory: packages/react
         run: mv dist/* .
+      - name: Populate Files
+        working-directory: packages/react
+        run: node populate.js
       - name: Publish
         working-directory: packages/react
         run: npm publish --access public

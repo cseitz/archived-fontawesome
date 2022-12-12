@@ -1,6 +1,19 @@
 import React, { createContext, useContext } from 'react';
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
+import tFA from "@fortawesome/fontawesome-common-types";
 import type { FC } from 'react';
+
+type FontawsesomeIconImport = {
+    definition: tFA.IconDefinition,
+    prefix: tFA.IconPrefix,
+    iconName: tFA.IconName,
+    width: number,
+    height: number,
+    ligatures: (string | number)[],
+    unicode: string,
+    svgPathData: string,
+    aliases: (string | number)[],
+}
 
 export type IconStyle = 'solid' | 'regular' | 'light' | 'thin' | 'duotone' | 'brand';
 
@@ -11,7 +24,7 @@ export type IconProps<Styles extends any = IconStyle> = Omit<FontAwesomeIconProp
 
 export type Icon<Styles = IconStyle> = FC<IconProps<Styles>> & {
     // @ts-ignore
-    [P in Styles]: any
+    [P in Styles]: FontawsesomeIconImport
 };
 
 export const IconContext = createContext<Partial<IconProps>>({
