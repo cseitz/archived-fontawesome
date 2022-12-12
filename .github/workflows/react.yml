@@ -1,4 +1,4 @@
-name: FontAwesome Pro
+name: FontAwesome React
 
 on:
   workflow_dispatch:
