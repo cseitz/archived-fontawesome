@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: [pro-solid, pro-regular, pro-light, pro-thin, pro-duotone, sharp-solid]
+        package: [pro-solid, pro-regular, pro-light, pro-thin, pro-duotone, sharp-solid, free-brands]
     concurrency:
       group: ${{ github.workflow }}-${{ matrix.package }}
       cancel-in-progress: true

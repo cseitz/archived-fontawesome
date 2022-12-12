@@ -8,7 +8,7 @@ if (!fa.name.startsWith('@cseitz')) {
 
     const names = [
         fa.name.includes('svg') ? 'svg' : null,
-        ...fa.name.split('/').pop().split('-').filter(o => o != 'pro' && o != 'svg' && o != 'icons'),
+        ...fa.name.split('/').pop().split('-').filter(o => o != 'pro' && o != 'svg' && o != 'icons' && o != 'free'),
     ].filter(o => o);
 
     const newName = name + names.join('-');
@@ -17,7 +17,7 @@ if (!fa.name.startsWith('@cseitz')) {
 
     writeFileSync(__pkg, JSON.stringify({
         ...fa,
-        version: '1.0.0',
+        version: '1.0.1',
         name: newName,
     }, null, 2))
 
