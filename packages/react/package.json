@@ -1,8 +1,8 @@
 {
     "name": "@cseitz/fontawesome-react",
-    "version": "1.0.5",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "version": "1.0.6",
+    "main": "index.js",
+    "types": "index.d.ts",
     "license": "MIT",
     "scripts": {
         "bruh": "npm install @fortawesome/fontawesome-pro",
@@ -12,7 +12,7 @@
         "hm": "copyfiles -u 1 ./fa/**/* build"
     },
     "files": [
-        "dist/*"
+        "*"
     ],
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.2.1",

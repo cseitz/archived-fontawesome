@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
-    name: Pull & Publish
+  react:
+    name: Publish
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}
@@ -19,15 +19,15 @@ jobs:
           node-version: 16.x
           registry-url: 'https://registry.npmjs.org'
           scope: '@cseitz'
-      - name: Download FontAwesome Pro
+      - name: Install
         working-directory: packages/react
-        run: FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} npm run pull
-      - name: Extract Package
-        working-directory: packages/fontawesome
-        run: npm run unzip
-      - name: Rename Package with HacKSU Scope
-        working-directory: packages/fontawesome
-        run: npm run rename
+        run: npm install
+      - name: Build
+        working-directory: packages/react
+        run: FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} npm run build
+      - name: Move Files
+        working-directory: packages/react
+        run: mv dist/* .
       - name: Publish
         working-directory: packages/fontawesome/package
         run: npm publish --access public
