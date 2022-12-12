@@ -4,7 +4,9 @@ const { EOL } = require('os');
 const __pkg = __dirname + '/package.json';
 const pkg = require(__dirname + '/package.json');
 
-const __dist = process.env.RUNNER_OS ? __dirname : __dirname + '/dist';
+const __dist = process.env.NODE_AUTH_TOKEN ? __dirname : __dirname + '/dist';
+
+console.log({ __dist })
 
 const files = readdirSync(__dist).filter(o => !o.startsWith('index') && (
     o.endsWith('.js') || o.endsWith('.d.ts')

@@ -70,8 +70,8 @@ ${imports.map(o => o[1]).join(EOL)}
  * @styles  ${def.styles.map(o => `\`${o}\``).join(', ')}
  * @changes ${def.changes.map(o => `\`${o}\``).join(', ')}
 */
-export const ${IconName} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
-export default ${IconName};`;
+export const ${NameIcon} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
+export default ${NameIcon};`;
     return [
         camelCase(def.name) + '.ts',
         fileData,
