@@ -28,15 +28,9 @@ jobs:
       - name: Move Files
         working-directory: packages/react
         run: mv dist/* .
-      - name: pre-ls
-        working-directory: packages/react
-        run: ls -a | grep index.d.ts
       - name: Populate Files
         working-directory: packages/react
         run: node populate.js
-      - name: post-ls
-        working-directory: packages/react
-        run: ls -a | grep index.d.ts
       - name: Publish
         working-directory: packages/react
         run: npm publish --access public
