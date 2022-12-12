@@ -16,7 +16,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
+          node-version: 18.x
           registry-url: 'https://registry.npmjs.org'
           scope: '@cseitz'
       - name: Install
@@ -28,9 +28,15 @@ jobs:
       - name: Move Files
         working-directory: packages/react
         run: mv dist/* .
+      - name: pre-ls
+        working-directory: packages/react
+        run: ls -a | grep index.d.ts
       - name: Populate Files
         working-directory: packages/react
         run: node populate.js
+      - name: post-ls
+        working-directory: packages/react
+        run: ls -a | grep index.d.ts
       - name: Publish
         working-directory: packages/react
         run: npm publish --access public
