@@ -45,6 +45,7 @@ export function _defineIcon<D extends IconDefinition, I extends Record<string, a
             ...rest
         } = props;
         console.log(style, styles);
+        // const _style = style in styles ? styles[style] : 
         let svg = ((style as string) in styles ? styles[style] : styles[Object.keys(styles)[0]]);
         if (!svg) {
             throw new Error(`Missing icon pack! Please install '@cseitz/fontawesome-svg-${style}'`);

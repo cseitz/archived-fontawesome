@@ -1,6 +1,6 @@
 {
     "name": "@cseitz/fontawesome-react",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "main": "index.js",
     "types": "index.d.ts",
     "license": "MIT",
@@ -8,7 +8,7 @@
         "bruh": "npm install @fortawesome/fontawesome-pro",
         "pull": "rm -rf package; npm pack @fortawesome/$PKG-svg-icons && gunzip -c fortawesome-*.tgz | tar xf - && rm -rf fortawesome-*.tgz && mkdir -p dist && mv package dist/$NAME",
         "download": "rm -rf dist; PKG=pro-solid NAME=solid npm run pull && PKG=pro-regular NAME=regular npm run pull && PKG=pro-light NAME=light npm run pull && PKG=pro-thin NAME=thin npm run pull && PKG=pro-duotone NAME=duotone npm run pull && PKG=sharp-solid NAME=sharp-solid npm run pull && tar -zcvf fa.tar.gz dist",
-        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -path './dist/index.js' | xargs -0 sed -i '/ts-ignore/d;s/__importDefaultDISABLED(require/__importDefault(__tryRequire/'",
+        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -path './dist/index.js' | xargs -0 sed -i '/ts-ignore/d;s/__importDefault(require/require/'",
         "hm": "copyfiles -u 1 ./fa/**/* build"
     },
     "files": [
