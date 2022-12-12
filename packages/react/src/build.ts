@@ -10,7 +10,7 @@ import { EOL } from 'os';
 
 console.log(execSync(`npm install --no-save @fortawesome/fontawesome-pro`).toString('utf8'));
 
-const LIMIT_ICONS = 20; //undefined; //20; //undefined;
+const LIMIT_ICONS = undefined; //20; //undefined;
 
 const allIcons = parse(
     readFileSync((
@@ -40,6 +40,7 @@ const iconDefinitions = Object.entries(allIcons)
 // console.log(allIcons);
 
 const indexDefines: string[] = [];
+// const indexReferences: string[] = [];
 function registerIcon(def: IconDefinition) {
     const faName = camelCase('fa ' + def.name);
     Object.assign(def, {
@@ -49,9 +50,10 @@ function registerIcon(def: IconDefinition) {
     const IconName = 'Icon' + Name;
     const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
     // indexDefines.push(`export { default as ${NameIcon} } from './${camelCase(def.name)}';`);
+    // indexReferences.push(`/// <reference path="./${camelCase(def.name)}.d.ts" />`)
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
-        `console.log(__tryRequire); // @ts-ignore`,
+        `// @ts-ignore`,
         // `import ${o} from '@cseitz/fontawesome-svg-${o}/${def.faName}';`,
         `const ${o} = require('@cseitz/fontawesome-svg-${o}/${def.faName}');`,
         // `const ${o} = import('@cseitz/fontawesome-svg-${o}/${def.faName}').catch(err => null);`
@@ -63,8 +65,6 @@ function registerIcon(def: IconDefinition) {
     // const imports = [STYLE].map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     const iconName = `icon${Name}`;
     const fileData = `import { _defineIcon, _tryRequire } from './_define';
-// const { _defineIcon, _tryRequire } = import('./_define');
-const __tryRequire = _tryRequire;
 ${imports.map(o => o[1]).join(EOL)}
 /** FontAwesome Icon: [${def.name}](https://fontawesome.com/icons/${def.name}) - ${def.label}
  * @styles  ${def.styles.map(o => `\`${o}\``).join(', ')}
@@ -105,7 +105,6 @@ writeFileSync(__dirname + '/../build/index.tsx', readFileSync(__dirname + '/inde
 writeFileSync(__dirname + '/../build/_define.tsx', readFileSync(__dirname + '/_define.tsx'));
 
 writeFileSync(__dirname + '/../build/_define.tsx', readFileSync(__dirname + '/_define.tsx'));
-
 
 // const dirs = readdirSync(__dirname + '/../fa');
 // dirs.map(o => execSync(`cp -R ${__dirname}/../fa/${o} ${__dirname}/../build/${o}`));
