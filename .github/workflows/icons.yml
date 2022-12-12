@@ -11,7 +11,7 @@ jobs:
       matrix:
         package: [pro-solid, pro-regular, pro-light, pro-thin, pro-duotone, sharp-solid]
     concurrency:
-      group: ${{ github.workflow }}
+      group: ${{ github.workflow }}-${{ matrix.package }}
       cancel-in-progress: true
 
     steps:
@@ -29,7 +29,7 @@ jobs:
         working-directory: packages/icons
         run: npm run rename
       - name: Publish
-        working-directory: packages/fontawesome/package
+        working-directory: packages/icons/package
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
