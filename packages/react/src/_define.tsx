@@ -45,8 +45,21 @@ export function _defineIcon<D extends IconDefinition, I extends Record<string, a
             ...rest
         } = props;
         let svg = ((style as string) in styles ? styles[style] : styles[Object.keys(styles)[0]]);
+        if (!svg) {
+            throw new Error(`Missing icon pack!`);
+        } else if (svg instanceof Error) {
+            throw svg;
+        }
         return <FontAwesomeIcon style={sx} icon={svg} {...rest} />
     }, styles);
 }
+
+export const _tryRequire = (name) => {
+    try {
+        const found = require(name);
+        if (found) return found;
+    } catch(err) {}
+    return new Error("Missing icon pack! Please install '" + name.split('/').slice(0, 2) + "'");
+};
 
 

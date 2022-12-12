@@ -1,0 +1,35 @@
+name: FontAwesome Icons
+
+on:
+  workflow_dispatch:
+
+jobs:
+  svg:
+    name: Publish
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [pro-solid, pro-regular, pro-light, pro-thin, pro-duotone, sharp-solid]
+    concurrency:
+      group: ${{ github.workflow }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@cseitz'
+      - name: Download Icons
+        working-directory: packages/icons
+        run: FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} PKG=${{ matrix.package }} npm run pull
+      - name: Rename Package
+        working-directory: packages/icons
+        run: npm run rename
+      - name: Publish
+        working-directory: packages/fontawesome/package
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
