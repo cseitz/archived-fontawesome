@@ -6,6 +6,7 @@ if (existsSync(__define)) {
     writeFileSync(__define, readFileSync(__define, 'utf8')
         .replace(/\$INSTALLED_ICON_LIBRARIES\$/, (
             JSON.stringify(readdirSync(__dirname + '/..').filter(o => o.includes('fontawesome-svg')))
+            .split('"').join("'")
         ))
     )
 }
