@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import * as React from "react";
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import tFA from "@fortawesome/fontawesome-common-types";
 import type { FC } from 'react';
@@ -27,7 +27,7 @@ export type Icon<Styles = IconStyle> = FC<IconProps<Styles>> & {
     [P in Styles]: FontawsesomeIconImport
 };
 
-export const IconContext = createContext<Partial<IconProps>>({
+export const IconContext = React.createContext<Partial<IconProps>>({
     style: 'regular'
 });
 
@@ -51,7 +51,7 @@ const DEFAULT_STYLE = 'regular';
 
 export function _defineIcon<D extends IconDefinition, I extends Record<string, any>>(def: D, styles: I): Icon<keyof I> {
     return Object.assign(function (props) {
-        const ctx = useContext(IconContext);
+        const ctx = React.useContext(IconContext);
         const {
             style = ctx?.style || DEFAULT_STYLE,
             sx = {},
