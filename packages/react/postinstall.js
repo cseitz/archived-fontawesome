@@ -19,7 +19,7 @@ function enable(style) {
 
 const styles = ['solid', 'regular', 'light', 'thin', 'duotone', 'sharp-solid', 'brands'];
 
-const __root = __dirname + '/dist';
+const __root = __dirname; // + '/dist';
 const __define = __root + '/_define.js';
 if (existsSync(__define)) {
     const installed = readdirSync(__dirname + '/..').filter(o => o.includes('fontawesome-svg'));
