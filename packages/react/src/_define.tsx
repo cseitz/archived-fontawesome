@@ -3,6 +3,11 @@ import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontaw
 import tFA from "@fortawesome/fontawesome-common-types";
 import type { FC } from 'react';
 
+const installed = JSON.parse(`$INSTALLED_ICON_LIBRARIES$`)
+export function _installed(key: string) {
+    return installed.includes(key);
+}
+
 type FontawsesomeIconImport = {
     definition: tFA.IconDefinition,
     prefix: tFA.IconPrefix,
