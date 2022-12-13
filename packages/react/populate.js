@@ -12,6 +12,8 @@ const files = readdirSync(__dist).filter(o => (
     o.endsWith('.js') || o.endsWith('.d.ts')
 ));
 
+files.push("postinstall.js");
+
 if (!__dist.endsWith('dist')) {
     writeFileSync(__pkg, JSON.stringify({
         ...pkg,
