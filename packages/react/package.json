@@ -1,11 +1,12 @@
 {
     "name": "@cseitz/fontawesome-react",
-    "version": "1.0.33",
+    "version": "1.0.34",
     "main": "index.js",
     "types": "index.d.ts",
     "license": "MIT",
     "scripts": {
-        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.declaration.json && cp build/index.d.ts dist/_index.d.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -name '_define.*' ! -name 'index.*' | xargs -0 sed -i '/ts-ignore/d;s/_fa = (require/_fa = __tryRequire(require/' && tsx src/postbuild.ts",
+        "oldbuild": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.declaration.json && cp build/index.d.ts dist/_index.d.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -name '_define.*' ! -name 'index.*' | xargs -0 sed -i '/ts-ignore/d;s/_fa = (require/_fa = __tryRequire(require/' && tsx src/postbuild.ts",
+        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -name '_define.*' ! -name 'index.*' | xargs -0 sed -i '/ts-ignore/d;s/_fa = (require/_fa = __tryRequire(require/' && tsx src/postbuild.ts",
         "postinstall": "node postinstall.js"
     },
     "files": [],
