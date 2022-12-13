@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "module": "commonjs",
+    // "moduleResolution": "NodeNext",
+    "resolveJsonModule": true,
+    // "isolatedModules": true,
+    "strictNullChecks": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "jsx": "react",
+    "rootDir": "./build",
+    // "outDir": "./dist"
+    "outFile": "./build/index"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    "src",
+    "**/index.tsx",
+    "**/_define.tsx",
+    "**/_define.ts"
+  ]
+}
