@@ -10,7 +10,7 @@ import { EOL } from 'os';
 
 console.log(execSync(`npm install --no-save @fortawesome/fontawesome-pro`).toString('utf8'));
 
-const LIMIT_ICONS = 20; //undefined; //20; //undefined;
+const LIMIT_ICONS = undefined; //20; //undefined;
 
 const allIcons = parse(
     readFileSync((
