@@ -54,8 +54,9 @@ function registerIcon(def: IconDefinition) {
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
         `console.log(_tryRequire); // @ts-ignore`,
+        // `const ${o}_fa = __tryRequire('${o}', require('@cseitz/fontawesome-svg-${o}/${def.faName}'));`,
+        `var ${o}_fa = null; try { ${o}_fa = require('@cseitz/fontawesome-svg-${o}/${def.faName}'); } catch(err) {};`,
         // `import ${o} from '@cseitz/fontawesome-svg-${o}/${def.faName}';`,
-        `const ${o}_fa = require('@cseitz/fontawesome-svg-${o}/${def.faName}');`,
         // `const ${o} = import('@cseitz/fontawesome-svg-${o}/${def.faName}').catch(err => null);`
         // `try {`,
         // `} catch(err) {}`

@@ -56,9 +56,10 @@ export function _defineIcon<D extends IconDefinition, I extends Record<string, a
             sx = {},
             ...rest
         } = props;
-        let svg = ((style as string) in styles ? styles[style] : styles[Object.keys(styles)[0]]);
+        const _style = style in styles ? style : Object.keys(styles)[0];
+        let svg = styles[_style];
         if (!svg) {
-            throw new Error(`Missing icon pack! Please install '@cseitz/fontawesome-svg-${style}'`);
+            throw new Error(`Missing icon pack! Please install '@cseitz/fontawesome-svg-${_style}' to use ${_style}:${def.name}`);
         } else if (svg instanceof Error) {
             throw svg;
         }
@@ -66,7 +67,7 @@ export function _defineIcon<D extends IconDefinition, I extends Record<string, a
     }, styles);
 }
 
-export const _tryRequire = (name) => {
+export const _tryRequire = (name, found) => {
     try {
         const found = require(name);
         if (found) return found;
