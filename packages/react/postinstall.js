@@ -4,16 +4,16 @@ const { readdir, readFile, writeFile } = require("fs/promises");
 const ELIMINATE_DOUBLE_COMMENT = /\/\/ \/\/ var/g
 
 function disable(style) {
-    const reg = new RegExp(`var ${style} = require\\('@cseitz/fontawesome-svg-${style}`, 'g')
+    const reg = new RegExp(`${style} = require\\('@cseitz/fontawesome-svg-${style}`, 'g')
     return (data) => {
-        return data.replace(reg, `// var ${style} = require('@cseitz/fontawesome-svg-${style}`)
+        return data.replace(reg, `// ${style} = require('@cseitz/fontawesome-svg-${style}`)
     }
 }
 
 function enable(style) {
-    const reg = new RegExp(`\/{2} var ${style} = require\\('@cseitz/fontawesome-svg-${style}`, 'g')
+    const reg = new RegExp(`\/{2} ${style} = require\\('@cseitz/fontawesome-svg-${style}`, 'g')
     return (data) => {
-        return data.replaceAll(reg, `var ${style} = require('@cseitz/fontawesome-svg-${style}`)
+        return data.replaceAll(reg, `${style} = require('@cseitz/fontawesome-svg-${style}`)
     }
 }
 
@@ -23,6 +23,10 @@ const __root = __dirname; // + '/dist';
 const __define = __root + '/_define.js';
 if (existsSync(__define)) {
     const installed = readdirSync(__dirname + '/..').filter(o => o.includes('fontawesome-svg'));
+    if (existsSync(__root + '/installed.json') && JSON.stringify(installed) == readFileSync(__root + '/installed.json')) {
+        return;
+    }
+    writeFileSync(__root + '/installed.json', JSON.stringify(installed));
     writeFileSync(__define, readFileSync(__define, 'utf8')
         .replace(/"\$INSTALLED_ICON_LIBRARIES\$"/, (
             "'" + JSON.stringify(installed) + "'"

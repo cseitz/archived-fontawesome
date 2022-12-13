@@ -56,7 +56,7 @@ function registerIcon(def: IconDefinition) {
         `// @ts-ignore`,
         // `const ${o}_fa = __tryRequire('${o}', require('@cseitz/fontawesome-svg-${o}/${def.faName}'));`,
         // `var ${o} = null; try { if (_installed('fontawesome-svg-${o}')) { ${o} = require('@cseitz/fontawesome-svg-${o}/${def.faName}'); }; } catch(err) {};`,
-        `var ${o} = require('@cseitz/fontawesome-svg-${o}/${def.faName}');`
+        `var ${o}; ${o} = require('@cseitz/fontawesome-svg-${o}/${def.faName}');`
         // `import ${o} from '@cseitz/fontawesome-svg-${o}/${def.faName}';`,
         // `const ${o} = import('@cseitz/fontawesome-svg-${o}/${def.faName}').catch(err => null);`
         // `try {`,

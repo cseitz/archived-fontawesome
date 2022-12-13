@@ -1,3 +1,4 @@
 package
 fa
 *.tar.gz
+installed.json
