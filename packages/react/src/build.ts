@@ -10,7 +10,7 @@ import { EOL } from 'os';
 
 console.log(execSync(`npm install --no-save @fortawesome/fontawesome-pro`).toString('utf8'));
 
-const LIMIT_ICONS = undefined; //20; //undefined;
+const LIMIT_ICONS = 20; //undefined; //20; //undefined;
 
 const allIcons = parse(
     readFileSync((
@@ -40,6 +40,7 @@ const iconDefinitions = Object.entries(allIcons)
 // console.log(allIcons);
 
 const indexDefines: string[] = [];
+const indexTypes: string[] = [];
 // const indexReferences: string[] = [];
 function registerIcon(def: IconDefinition) {
     const faName = camelCase('fa ' + def.name);
@@ -49,7 +50,8 @@ function registerIcon(def: IconDefinition) {
     const Name = def.faName.slice(2);
     const IconName = 'Icon' + Name;
     const NameIcon = isNaN(Number(Name.slice(0, 1))) ? `${Name}Icon` : `Number${Name}Icon`;
-    indexDefines.push(`export { ${NameIcon} } from './${camelCase(def.name)}';`);
+    indexDefines.push(`export { ${IconName} } from './icons/${camelCase(def.name)}';`);
+    indexTypes.push(`export const ${IconName}: Icon<${Object.values(def.styles).map(o => "'" + o + "'").join(' | ')}>;`);
     // indexReferences.push(`/// <reference path="./${camelCase(def.name)}.d.ts" />`)
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
@@ -64,14 +66,14 @@ function registerIcon(def: IconDefinition) {
     // const imports = def.styles.map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     // const imports = [STYLE].map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     const iconName = `icon${Name}`;
-    const fileData = `import { _defineIcon, _tryRequire } from './_define';
+    const fileData = `import { _defineIcon, _tryRequire } from '../_define';
 ${imports.map(o => o[1]).join(EOL)}
 /** FontAwesome Icon: [${def.name}](https://fontawesome.com/icons/${def.name}) - ${def.label}
  * @styles  ${def.styles.map(o => `\`${o}\``).join(', ')}
  * @changes ${def.changes.map(o => `\`${o}\``).join(', ')}
 */
-export const ${NameIcon} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
-export default ${NameIcon};`;
+export const ${IconName} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
+export default ${IconName};`;
     return [
         camelCase(def.name) + '.ts',
         fileData,
@@ -88,23 +90,38 @@ const defines = iconDefinitions.map(registerIcon);
 
 // sed -i 's/__importDefault(require/__importDefault(tryRequire/' ./dist/0.js
 
-mkdirSync(__dirname + '/../build', { recursive: true });
-mkdirSync(__dirname + '/../dist', { recursive: true });
+mkdirSync(__dirname + '/../build/icons', { recursive: true });
+mkdirSync(__dirname + '/../files/icons', { recursive: true });
 // execSync(`cp -R ${__dirname}/../fa ${__dirname}/../build`);
 
-const dirs = readdirSync(__dirname + '/../dist');
+const dirs = readdirSync(__dirname + '/../files/icons');
 dirs.map(o => {
     if (o.includes('.')) {
-        unlinkSync(__dirname + '/../dist/' + o);
+        unlinkSync(__dirname + '/../files/icons/' + o);
     }
 });
 
-defines.slice(0, LIMIT_ICONS).forEach(o => writeFileSync(__dirname + '/../build/' + o[0], o[1]));
+const dirs2 = readdirSync(__dirname + '/../files');
+dirs2.map(o => {
+    if (o.includes('.')) {
+        unlinkSync(__dirname + '/../files/' + o);
+    }
+});
+
+defines.slice(0, LIMIT_ICONS).forEach(o => writeFileSync(__dirname + '/../build/icons/' + o[0], o[1]));
 
 writeFileSync(__dirname + '/../build/index.tsx', readFileSync(__dirname + '/index.tsx', 'utf8') + indexDefines.slice(0, LIMIT_ICONS).join(EOL));
 writeFileSync(__dirname + '/../build/_define.tsx', readFileSync(__dirname + '/_define.tsx'));
 
 writeFileSync(__dirname + '/../build/_define.tsx', readFileSync(__dirname + '/_define.tsx'));
+
+writeFileSync(__dirname + '/../build/__index.d.ts', [
+    `export type { Icon, IconProps, IconDefinition } from './_define';`,
+    `export { IconContext } from './_define';`,
+    ``,
+    `// Icons`,
+    ...indexTypes,
+].join(EOL));
 
 // const dirs = readdirSync(__dirname + '/../fa');
 // dirs.map(o => execSync(`cp -R ${__dirname}/../fa/${o} ${__dirname}/../build/${o}`));

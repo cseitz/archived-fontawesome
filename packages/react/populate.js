@@ -15,7 +15,7 @@ const files = readdirSync(__dist).filter(o => (
 if (!__dist.endsWith('dist')) {
     writeFileSync(__pkg, JSON.stringify({
         ...pkg,
-        files,
+        // files,
     }, null, 2));
 }
 

@@ -14,13 +14,13 @@
     "module": "esnext",
     "moduleResolution": "NodeNext",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    // "isolatedModules": true,
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "declaration": true,
     "jsx": "react",
     "rootDir": "./build",
-    "outDir": "./dist"
+    "outDir": "./files"
   },
   "include": [
     "next-env.d.ts",
@@ -30,7 +30,7 @@
   "exclude": [
     "node_modules",
     "test",
-    "dist",
+    "files",
     "src",
   ]
 }

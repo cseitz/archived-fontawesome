@@ -1,17 +1,28 @@
 {
     "name": "@cseitz/fontawesome-react",
-    "version": "1.0.18",
-    "main": "index.js",
-    "types": "index.d.ts",
+    "version": "1.0.19",
+    "main": "./dist/index.cjs.js",
+    "types": "./dist/index.d.ts",
+    "umd:main": "./dist/index.umd.js",
+    "module": "./dist/index.esm.js",
+    "exports": {
+        ".": {
+          "import": "./dist/index.esm.js",
+          "require": "./dist/index.cjs.js"
+        }
+    },
     "license": "MIT",
     "scripts": {
         "bruh": "npm install @fortawesome/fontawesome-pro",
         "pull": "rm -rf package; npm pack @fortawesome/$PKG-svg-icons && gunzip -c fortawesome-*.tgz | tar xf - && rm -rf fortawesome-*.tgz && mkdir -p dist && mv package dist/$NAME",
         "download": "rm -rf dist; PKG=pro-solid NAME=solid npm run pull && PKG=pro-regular NAME=regular npm run pull && PKG=pro-light NAME=light npm run pull && PKG=pro-thin NAME=thin npm run pull && PKG=pro-duotone NAME=duotone npm run pull && PKG=sharp-solid NAME=sharp-solid npm run pull && tar -zcvf fa.tar.gz dist",
-        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -path './dist/index.js' ! -path './dist/index.d.ts' | xargs -0 sed -i '/ts-ignore/d;s/__importDefault(require/(require/'",
-        "hm": "copyfiles -u 1 ./fa/**/* build"
+        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./files -type f -name '*.js' -print0 ! -path './files/index.js' ! -path './files/index.d.ts' | xargs -0 sed -i '/ts-ignore/d;s/__importDefault(require/(require/' && rollup -c && tsx src/postbuild.ts",
+        "hm": "copyfiles -u 1 ./fa/**/* build",
+        "woah": "rollup -c"
     },
-    "files": [],
+    "files": [
+        "dist/*"
+    ],
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^6.2.1",
         "@fortawesome/react-fontawesome": "^0.2.0",
@@ -26,6 +37,33 @@
         "@types/react-dom": "^18.0.6",
         "tsx": "^3.12.1",
         "typescript": "^4.9.3",
-        "yaml": "^2.1.3"
+        "yaml": "^2.1.3",
+        "@babel/core": "7.11.6",
+        "@babel/parser": "7.11.5",
+        "@babel/preset-env": "7.11.5",
+        "@babel/preset-react": "7.10.4",
+        "@rollup/plugin-babel": "5.2.1",
+        "@rollup/plugin-commonjs": "15.1.0",
+        "@rollup/plugin-node-resolve": "9.0.0",
+        "@svgr/babel-plugin-replace-jsx-attribute-value": "5.0.1",
+        "@svgr/core": "5.4.0",
+        "clean-css": "4.2.3",
+        "csv-parser": "^3.0.0",
+        "glob": "7.1.6",
+        "gulp": "4.0.2",
+        "gulp-iconfont": "11.0.1",
+        "gulp-svgo": "^2.2.1",
+        "gulp-zip": "5.1.0",
+        "lodash.template": "4.5.0",
+        "minimist": "1.2.6",
+        "node-sass": "8.0.0",
+        "parse-svg-path": "^0.1.2",
+        "release-it": "14.12.5",
+        "rollup": "2.78.1",
+        "rollup-plugin-filesize": "9.1.2",
+        "rollup-plugin-peer-deps-external": "2.2.4",
+        "rollup-plugin-terser": "7.0.2",
+        "svg-outline-stroke": "1.3.1",
+        "svgo": "^2.8.0"
     }
 }
