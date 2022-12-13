@@ -48,7 +48,6 @@ export type IconDefinition = {
 
 const DEFAULT_STYLE = 'regular';
 
-
 export function _defineIcon<D extends IconDefinition, I extends Record<string, any>>(def: D, styles: I): Icon<keyof I> {
     return Object.assign(function (props) {
         const ctx = useContext(IconContext);

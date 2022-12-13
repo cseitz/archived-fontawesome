@@ -53,9 +53,9 @@ function registerIcon(def: IconDefinition) {
     // indexReferences.push(`/// <reference path="./${camelCase(def.name)}.d.ts" />`)
     const imports = def.styles.map(o => [o, [
         // `__tryImportDefault("@cseitz/fontawesome-svg-${o}/${def.faName}")`,
-        `// @ts-ignore`,
+        `console.log(_tryRequire); // @ts-ignore`,
         // `import ${o} from '@cseitz/fontawesome-svg-${o}/${def.faName}';`,
-        `const ${o} = require('@cseitz/fontawesome-svg-${o}/${def.faName}');`,
+        `const ${o}_fa = require('@cseitz/fontawesome-svg-${o}/${def.faName}');`,
         // `const ${o} = import('@cseitz/fontawesome-svg-${o}/${def.faName}').catch(err => null);`
         // `try {`,
         // `} catch(err) {}`
@@ -65,12 +65,13 @@ function registerIcon(def: IconDefinition) {
     // const imports = [STYLE].map(o => [o, `// @ts-ignore${EOL}import ${o} from './${o}/${def.faName}';`]);
     const iconName = `icon${Name}`;
     const fileData = `import { _defineIcon, _tryRequire } from './_define';
+const __tryRequire = _tryRequire;
 ${imports.map(o => o[1]).join(EOL)}
 /** FontAwesome Icon: [${def.name}](https://fontawesome.com/icons/${def.name}) - ${def.label}
  * @styles  ${def.styles.map(o => `\`${o}\``).join(', ')}
  * @changes ${def.changes.map(o => `\`${o}\``).join(', ')}
 */
-export const ${NameIcon} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0]).join(', ')} });
+export const ${NameIcon} = _defineIcon(${JSON.stringify(def)}, { ${imports.map(o => o[0] + '_fa').join(', ')} });
 export default ${NameIcon};`;
     return [
         camelCase(def.name) + '.ts',
