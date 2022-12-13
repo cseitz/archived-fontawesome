@@ -1,12 +1,12 @@
 {
     "name": "@cseitz/fontawesome-react",
-    "version": "1.0.36",
+    "version": "1.0.37",
     "main": "index.js",
     "types": "index.d.ts",
     "license": "MIT",
     "scripts": {
         "oldbuild": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.declaration.json && cp build/index.d.ts dist/_index.d.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -name '_define.*' ! -name 'index.*' | xargs -0 sed -i '/ts-ignore/d;s/_fa = (require/_fa = __tryRequire(require/' && tsx src/postbuild.ts",
-        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*.js' -print0 ! -name '_define.*' ! -name 'index.*' | xargs -0 sed -i '/ts-ignore/d;s/_fa = (require/_fa = __tryRequire(require/' && tsx src/postbuild.ts",
+        "build": "rm -rf build; tsx src/build.ts && tsc -p tsconfig.build.json && find ./dist -type f -name '*s' -print0 ! -name '_define.*' ! -name 'index.*' | xargs -0 sed -i '/ts-ignore/d;s/.\\/_define/@cseitz\\/fontawesome-react\\/_define/' && tsx src/postbuild.ts",
         "postinstall": "node postinstall.js"
     },
     "files": [],
